@@ -1,0 +1,202 @@
+body {
+    background-image: url("../img/fundo.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: Arial;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    /* Degradê contínuo das bordas escuras para vermelho claro no centro */
+    background: radial-gradient(circle at center, lch(66.08% 86.29 58.35 / 0.13) 0%, rgba(0, 0, 0, 0.644) 100%);
+    padding: 50px;
+    border-radius: 20px;
+    width: 95%;
+    max-width: 1650px;
+    margin: auto;
+    margin-top: 40px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.479);
+    position: relative;
+}
+
+
+
+.titulo {
+    margin-bottom: 30px;
+    font-size: 3em;           /* maior para destaque */
+}
+
+.input {
+    padding: 15px;
+    width: 350px;             /* mais largo */
+    font-size: 20px;          /* maior */
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 15px;
+    background-color: #ccc;   /* barra cinza */
+}
+
+.botao {
+    padding: 15px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    background: #8b0000;
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.botao:hover {
+    background: red;
+}
+
+table {
+    margin: auto;
+    margin-top: 40px;
+    border-spacing: 15px;     /* mais espaçamento */
+    font-size: 18px;          /* texto maior */
+}
+
+td {
+    padding: 15px;            /* maior padding */
+    border-radius: 12px;
+    min-width: 120px;         /* maior célula */
+}
+
+.foto {
+    width: 120px;             /* imagens maiores */
+    border-radius: 12px;
+}
+
+.nome {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.verde {
+    background: green;
+}
+
+.vermelho {
+    background: red;
+}
+
+#sugestoes {
+    width: 350px;              /* mesmo que input */
+    margin: auto;
+}
+
+.sugestao {
+    background: black;
+    padding: 15px;
+    cursor: pointer;
+    border-bottom: 1px solid gray;
+    font-size: 18px;           /* texto maior */
+}
+
+.sugestao:hover {
+    background: gray;
+}
+
+/* Animação fade-in para células */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  opacity: 0; /* começa invisível */
+}
+
+/* Logo e frase PNG */
+.logo, .frase-logo {
+    display: block;
+    margin: 15px auto;        /* espaço maior */
+    max-width: 700px;         /* maior tamanho */
+    width: 80%;
+    height: auto;
+}
+/* Pai do input */
+.input-container {
+    position: relative; /* cria contexto para a sugestão */
+    display: inline-block; /* mantém o tamanho do input */
+}
+
+/* Sugestões */
+#sugestoes {
+    position: absolute;
+    top: 100%; /* logo abaixo do input */
+    left: 50%; 
+    transform: translateX(-50%);
+    z-index: 1000;        
+    width: 250px;         
+    background: black;    
+    border-radius: 5px;   
+    max-height: 200px;    
+    overflow-y: auto;     
+    margin-top: 5px; /* pequeno espaço entre input e sugestões */
+}
+/* Modal de Vitória */
+.modal {
+    display: none; /* inicialmente escondido */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: linear-gradient(to bottom, #ffcccc, #ffffff);
+    padding: 30px 50px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 20px black;
+    animation: zoomIn 0.5s ease;
+}
+
+@keyframes zoomIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.modal h2 {
+    margin-bottom: 20px;
+    color: #8b0000;
+}
+
+.modal .botao {
+    font-size: 18px;
+    padding: 10px 20px;
+}
+.sugestao {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.sugestao:hover {
+    background-color: #f0f0f0;
+}
+
+.sugestao-img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 50%; /* opcional, deixa a foto redonda */
+}
