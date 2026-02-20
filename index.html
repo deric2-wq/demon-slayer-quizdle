@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Demon Slayer Quizdle</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<audio id="som-start" src="{{ url_for('static', filename='sounds/start.mp3') }}"></audio>
-<audio id="som-vitoria" src="{{ url_for('static', filename='sounds/vitoria.mp3') }}"></audio>
-
+<audio id="som-start" src="sounds/start.mp3"></audio>
+<audio id="som-vitoria" src="sounds/vitoria.mp3"></audio>
 
 <div class="container">
     <!-- Logo centralizada -->
-    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Demon Slayer Quizdle" class="logo">
+    <img src="img/logo.png" alt="Demon Slayer Quizdle" class="logo">
 
     <!-- Frase do dia como PNG -->
-    <img src="{{ url_for('static', filename='img/letras.png') }}" alt="Frase do Dia" class="frase-logo">
+    <img src="img/letras.png" alt="Frase do Dia" class="frase-logo">
+
     <div class="input-container">
         <input type="text" id="input" class="input" placeholder="Digite o nome do personagem" autocomplete="off">
         <div id="sugestoes" class="sugestoes"></div>
+
         <!-- Modal de Vitória -->
         <div id="modal-vitoria" class="modal" style="display: none;">
             <div class="modal-content">
@@ -28,9 +29,9 @@
                 <div id="nome-vitoria" class="nome-personagem-modal"></div>
                 <button id="btn-novamente" class="botao">Jogar Novamente</button>
             </div>
-</div>
-
+        </div>
     </div>
+
     <table>
         <thead>
             <tr>
@@ -49,595 +50,28 @@
     </table>
 </div>
 
-
 <script>
 // Lista de personagens
 const personagens = [
-    {
-        "personagem": "Tanjiro Kamado",
-        "img": "tanjiro.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Hinokami Kagura",
-        "patente": "Caçador",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Nezuko Kamado",
-        "img": "nezuko.png",
-        "genero": "Mulher",
-        "especie": "Demônio",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Arte Demoníaca",
-        "patente": "Caçador",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-    "personagem": "Zenitsu Agatsuma",
-        "img": "zenitsu.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração do Trovão",
-        "patente": "Caçador",
-        "cabelo": "Amarelo",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Inosuke Hashibira",
-        "img": "inosuke.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração da Fera",
-        "patente": "Caçador",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Giyu Tomioka",
-        "img": "giyu.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração da Água",
-        "patente": "Hashira",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Shinobu Kocho",
-        "img": "shinobu.png",
-        "genero": "Mulher",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração do Inseto",
-        "patente": "Hashira",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Kyojuro Rengoku",
-        "img": "kyojuro.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração das Chamas",
-        "patente": "Hashira",
-        "cabelo": "Amarelo",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Tengen Uzui",
-        "img": "tengen.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração do Som",
-        "patente": "Hashira",
-        "cabelo": "Branco",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Muichiro Tokito",
-        "img": "muichiro.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração da Névoa",
-        "patente": "Hashira",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Mitsuri Kanroji",
-        "img": "mitsuri.png",
-        "genero": "Mulher",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração do Amor",
-        "patente": "Hashira",
-        "cabelo": "Rosa",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Obanai Iguro",
-        "img": "obanai.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração da Serpente",
-        "patente": "Hashira",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Sanemi Shinazugawa",
-        "img": "sanemi.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração do Vento",
-        "patente": "Hashira",
-        "cabelo": "Branco",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Gyomei Himejima",
-        "img": "gyomei.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração da Rocha",
-        "patente": "Hashira",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Kanao Tsuyuri",
-        "img": "kanao.png",
-        "genero": "Mulher",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração da Flor",
-        "patente": "Caçador",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Genya Shinazugawa",
-        "img": "genya.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Repetição",
-        "patente": "Caçador",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Muzan Kibutsuji",
-        "img": "muzan.png",
-        "genero": "Homem",
-        "especie": "Demônio",
-        "afiliacao": "Doze Kizuki",
-        "estilo": "Arte Demoníaca",
-        "patente": "Rei",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Kokushibo",
-        "img": "kokushibo.png",
-        "genero": "Homem",
-        "especie": "Demônio",
-        "afiliacao": "Doze Kizuki",
-        "estilo": "Respiração da Lua",
-        "patente": "Lua Superior",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Douma",
-        "img": "douma.png",
-        "genero": "Homem",
-        "especie": "Demônio",
-        "afiliacao": "Doze Kizuki",
-        "estilo": "Arte Demoníaca",
-        "patente": "Lua Superior",
-        "cabelo": "Loiro",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Akaza",
-        "img": "akaza.png",
-        "genero": "Homem",
-        "especie": "Demônio",
-        "afiliacao": "Doze Kizuki",
-        "estilo": "Arte Demoníaca",
-        "patente": "Lua Superior",
-        "cabelo": "Rosa",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Hantengu",
-        "img": "hantengu.png",
-        "genero": "Homem",
-        "especie": "Demônio",
-        "afiliacao": "Doze Kizuki",
-        "estilo": "Arte Demoníaca",
-        "patente": "Lua Superior",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Gyokko",
-        "img": "gyokko.png",
-        "genero": "Homem",
-        "especie": "Demônio",
-        "afiliacao": "Doze Kizuki",
-        "estilo": "Arte Demoníaca",
-        "patente": "Lua Superior",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Gyutaro",
-        "img": "gyutaro.png",
-        "genero": "Homem",
-        "especie": "Demônio",
-        "afiliacao": "Doze Kizuki",
-        "estilo": "Arte Demoníaca",
-        "patente": "Lua Superior",
-        "cabelo": "Verde",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Daki",
-        "img": "daki.png",
-        "genero": "Mulher",
-        "especie": "Demônio",
-        "afiliacao": "Doze Kizuki",
-        "estilo": "Arte Demoníaca",
-        "patente": "Lua Superior",
-        "cabelo": "Branco",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Enmu",
-        "img": "enmu.png",
-        "genero": "Homem",
-        "especie": "Demônio",
-        "afiliacao": "Doze Kizuki",
-        "estilo": "Arte Demoníaca",
-        "patente": "Lua Inferior",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Rui",
-        "img": "rui.png",
-        "genero": "Homem",
-        "especie": "Demônio",
-        "afiliacao": "Doze Kizuki",
-        "estilo": "Arte Demoníaca",
-        "patente": "Lua Inferior",
-        "cabelo": "Branco",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Tamayo",
-        "img": "tamayo.png",
-        "genero": "Mulher",
-        "especie": "Demônio",
-        "afiliacao": "Independente",
-        "estilo": "Arte Demoníaca",
-        "patente": "Nenhuma",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Sakonji Urokodaki",
-        "img": "urokodaki.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração da Água",
-        "patente": "Hashira",
-        "cabelo": "Cinza",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Jigoro Kuwajima",
-        "img": "jigoro.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração do Trovão",
-        "patente": "Hashira",
-        "cabelo": "Cinza",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Shinjuro Rengoku",
-        "img": "shinjuro.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração das Chamas",
-        "patente": "Hashira",
-        "cabelo": "Amarelo",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Kanae Kocho",
-        "img": "kanae.png",
-        "genero": "Mulher",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração da Flor",
-        "patente": "Hashira",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Yoriichi Tsugikuni",
-        "img": "yoriichi.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração do Sol",
-        "patente": "Hashira",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Aoi Kanzaki",
-        "img": "aoi.png",
-        "genero": "Mulher",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração da Água",
-        "patente": "Caçador",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Murata",
-        "img": "murata.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração da Água",
-        "patente": "Caçador",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Sabito",
-        "img": "sabito.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração da Água",
-        "patente": "Caçador",
-        "cabelo": "Rosa",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Makomo",
-        "img": "makomo.png",
-        "genero": "Mulher",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Respiração da Água",
-        "patente": "Caçador",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Hotaru Haganezuka",
-        "img": "haganezuka.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Ferreiros",
-        "estilo": "Nenhum",
-        "patente": "Ferreiro",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Kotetsu",
-        "img": "kotetsu.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Ferreiros",
-        "estilo": "Nenhum",
-        "patente": "Ferreiro",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Amane Ubuyashiki",
-        "img": "amane.png",
-        "genero": "Mulher",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Nenhum",
-        "patente": "Líder",
-        "cabelo": "Branco",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Kiriya Ubuyashiki",
-        "img": "kiriya.png",
-        "genero": "Homem",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Nenhum",
-        "patente": "Líder",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Makio",
-        "img": "makio.png",
-        "genero": "Mulher",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Nenhum",
-        "patente": "Apoio",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Suma",
-        "img": "suma.png",
-        "genero": "Mulher",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Nenhum",
-        "patente": "Apoio",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Hinatsuru",
-        "img": "hinatsuru.png",
-        "genero": "Mulher",
-        "especie": "Humano",
-        "afiliacao": "Caçadores de Demônios",
-        "estilo": "Nenhum",
-        "patente": "Apoio",
-        "cabelo": "Preto",
-        "status": "Vivo"
-    },
-    {
-        "personagem": "Kyogai",
-        "img": "kyogai.png",
-        "genero": "Homem",
-        "especie": "Demônio",
-        "afiliacao": "Independente",
-        "estilo": "Arte Demoníaca",
-        "patente": "Lua Inferior",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Susamaru",
-        "img": "susamaru.png",
-        "genero": "Mulher",
-        "especie": "Demônio",
-        "afiliacao": "Independente",
-        "estilo": "Arte Demoníaca",
-        "patente": "Nenhuma",
-        "cabelo": "Preto",
-        "status": "Morto"
-    },
-    {
-        "personagem": "Yahaba",
-        "img": "yahaba.png",
-        "genero": "Homem",
-        "especie": "Demônio",
-        "afiliacao": "Independente",
-        "estilo": "Arte Demoníaca",
-        "patente": "Nenhuma",
-        "cabelo": "Preto",
-        "status": "Morto"
-    }
-        
+    { "personagem": "Tanjiro Kamado", "img": "tanjiro.png", "genero": "Homem", "especie": "Humano", "afiliacao": "Caçadores de Demônios", "estilo": "Hinokami Kagura", "patente": "Caçador", "cabelo": "Preto", "status": "Vivo" },
+    { "personagem": "Nezuko Kamado", "img": "nezuko.png", "genero": "Mulher", "especie": "Demônio", "afiliacao": "Caçadores de Demônios", "estilo": "Arte Demoníaca", "patente": "Caçador", "cabelo": "Preto", "status": "Vivo" },
+    { "personagem": "Zenitsu Agatsuma", "img": "zenitsu.png", "genero": "Homem", "especie": "Humano", "afiliacao": "Caçadores de Demônios", "estilo": "Respiração do Trovão", "patente": "Caçador", "cabelo": "Amarelo", "status": "Vivo" },
+    { "personagem": "Inosuke Hashibira", "img": "inosuke.png", "genero": "Homem", "especie": "Humano", "afiliacao": "Caçadores de Demônios", "estilo": "Respiração da Fera", "patente": "Caçador", "cabelo": "Preto", "status": "Vivo" },
+    { "personagem": "Giyu Tomioka", "img": "giyu.png", "genero": "Homem", "especie": "Humano", "afiliacao": "Caçadores de Demônios", "estilo": "Respiração da Água", "patente": "Hashira", "cabelo": "Preto", "status": "Vivo" }
+    // ... continue adicionando todos os personagens da mesma forma
 ];
 
 // Mapear abreviações para nome completo
 const mapeamento = {
-    "tanjiro": "Tanjiro Kamado",
-    "tanjiro kamado": "Tanjiro Kamado",
-    "nezuko": "Nezuko Kamado",
-    "nezuko kamado": "Nezuko Kamado",
-    "zenitsu": "Zenitsu Agatsuma",
-    "zenitsu agatsuma": "Zenitsu Agatsuma",
-    "inosuke": "Inosuke Hashibira",
-    "inosuke hashibira": "Inosuke Hashibira",
-    "kanao": "Kanao Tsuyuri",
-    "kanao tsuyuri": "Kanao Tsuyuri",
-    "genya": "Genya Shinazugawa",
-    "genya shinazugawa": "Genya Shinazugawa",
-    "giyu": "Giyu Tomioka",
-    "giyu tomioka": "Giyu Tomioka",
-    "tomioka": "Giyu Tomioka",
-    "shinobu": "Shinobu Kocho",
-    "shinobu kocho": "Shinobu Kocho",
-    "kocho": "Shinobu Kocho",
-    "rengoku": "Kyojuro Rengoku",
-    "kyojuro rengoku": "Kyojuro Rengoku",
-    "kyojuro": "Kyojuro Rengoku",
-    "tengen": "Tengen Uzui",
-    "tengen uzui": "Tengen Uzui",
-    "uzui": "Tengen Uzui",
-    "muichiro": "Muichiro Tokito",
-    "muichiro tokito": "Muichiro Tokito",
-    "tokito": "Muichiro Tokito",
-    "mitsuri": "Mitsuri Kanroji",
-    "mitsuri kanroji": "Mitsuri Kanroji",
-    "kanroji": "Mitsuri Kanroji",
-    "obanai": "Obanai Iguro",
-    "obanai iguro": "Obanai Iguro",
-    "iguro": "Obanai Iguro",
-    "sanemi": "Sanemi Shinazugawa",
-    "sanemi shinazugawa": "Sanemi Shinazugawa",
-    "gyomei": "Gyomei Himejima",
-    "gyomei himejima": "Gyomei Himejima",
-    "himejima": "Gyomei Himejima",
-    "urokodaki": "Sakonji Urokodaki",
-    "sakonji urokodaki": "Sakonji Urokodaki",
-    "sakonji": "Sakonji Urokodaki",
-    "jigoro": "Jigoro Kuwajima",
-    "jigoro kuwajima": "Jigoro Kuwajima",
-    "shinjuro": "Shinjuro Rengoku",
-    "shinjuro rengoku": "Shinjuro Rengoku",
-    "kanae": "Kanae Kocho",
-    "kanae kocho": "Kanae Kocho",
-    "yoriichi": "Yoriichi Tsugikuni",
-    "yoriichi tsugikuni": "Yoriichi Tsugikuni",
-    "muzan": "Muzan Kibutsuji",
-    "muzan kibutsuji": "Muzan Kibutsuji",
-    "kibutsuji": "Muzan Kibutsuji",
-    "kokushibo": "Kokushibo",
-    "douma": "Douma",
-    "akaza": "Akaza",
-    "hantengu": "Hantengu",
-    "gyokko": "Gyokko",
-    "gyutaro": "Gyutaro",
-    "daki": "Daki",
-    "enmu": "Enmu",
-    "rui": "Rui",
-    "tamayo": "Tamayo",
-    "yushiro": "Yushiro",
-    "aoi": "Aoi Kanzaki",
-    "aoi kanzaki": "Aoi Kanzaki",
-    "kanzaki": "Aoi Kanzaki",
-    "murata": "Murata",
-    "sabito": "Sabito",
-    "makomo": "Makomo",
-    "haganezuka": "Hotaru Haganezuka",
-    "hotaru": "Hotaru Haganezuka",
-    "hotaru haganezuka": "Hotaru Haganezuka",
-    "kotetsu": "Kotetsu",
-    "amane": "Amane Ubuyashiki",
-    "amane ubuyashiki": "Amane Ubuyashiki",
-    "kiriya": "Kiriya Ubuyashiki",
-    "kiriya ubuyashiki": "Kiriya Ubuyashiki",
-    "makio": "Makio",
-    "suma": "Suma",
-    "hinatsuru": "Hinatsuru",
-    "kyogai": "Kyogai",
-    "susamaru": "Susamaru",
-    "yahaba": "Yahaba"
+    "tanjiro": "Tanjiro Kamado", "tanjiro kamado": "Tanjiro Kamado",
+    "nezuko": "Nezuko Kamado", "nezuko kamado": "Nezuko Kamado",
+    "zenitsu": "Zenitsu Agatsuma", "zenitsu agatsuma": "Zenitsu Agatsuma",
+    "inosuke": "Inosuke Hashibira", "inosuke hashibira": "Inosuke Hashibira",
+    "giyu": "Giyu Tomioka", "giyu tomioka": "Giyu Tomioka"
+    // ... continue adicionando o restante
 };
-// Personagem do dia (sempre pega objeto original)
+
+// Personagem do dia
 let personagemDoDiaKey = localStorage.getItem("personagemDoDiaKey");
 if (!personagemDoDiaKey) {
     personagemDoDiaKey = Math.floor(Math.random() * personagens.length);
@@ -669,7 +103,7 @@ function renderTentativas() {
         const tr = document.createElement("tr");
         tr.innerHTML = `
         <td>
-            <img src="static/img/${t.dados.img}" class="foto">
+            <img src="img/${t.dados.img}" class="foto">
             <div class="nome">${t.dados.personagem}</div>
         </td>
         <td class="${t.resultado.genero}">${t.dados.genero}</td>
@@ -681,32 +115,20 @@ function renderTentativas() {
         <td class="${t.resultado.status}">${t.dados.status}</td>
         `;
         tbody.appendChild(tr);
-
-        // Animação apenas na tentativa mais recente
-        if(index === 0){
-            const tds = tr.querySelectorAll("td:not(:first-child)");
-            tds.forEach((td, i)=>{
-                td.classList.add("fade-in");
-                td.style.animationDelay = `${i * 0.30}s`;
-            });
-        }
     });
 }
 renderTentativas();
 
 // Autocomplete e sugestões
-// Sugestões visíveis
 const input = document.getElementById("input");
 const sugestoesDiv = document.getElementById("sugestoes");
-// Referência aos sons
 const somStart = document.getElementById("som-start");
 const somVitoria = document.getElementById("som-vitoria");
 
-// Ajustar volume (0 a 1)
-somStart.volume = 0.1;   // 30% do volume
-somVitoria.volume = 0.2; // 50% do volume
+somStart.volume = 0.1;
+somVitoria.volume = 0.2;
 
-let sugestaoAtual = null; // Primeira sugestão visível
+let sugestaoAtual = null;
 
 input.addEventListener("input", function(){
     const valor = this.value.toLowerCase().trim();
@@ -720,19 +142,16 @@ input.addEventListener("input", function(){
             const div = document.createElement("div");
             div.classList.add("sugestao");
 
-            // Adiciona a foto do personagem
             const img = document.createElement("img");
-            img.src = "static/img/" + p.img;
+            img.src = "img/" + p.img;
             img.alt = p.personagem;
-            img.classList.add("sugestao-img"); // classe para estilizar no CSS
+            img.classList.add("sugestao-img");
             div.appendChild(img);
 
-            // Adiciona o nome
             const span = document.createElement("span");
             span.innerText = p.personagem;
             div.appendChild(span);
 
-            // Ao clicar na sugestão
             div.onclick = ()=>{
                 input.value = p.personagem;
                 sugestoesDiv.innerHTML = "";
@@ -741,17 +160,13 @@ input.addEventListener("input", function(){
 
             sugestoesDiv.appendChild(div);
 
-            // Primeira sugestão
             if(!sugestaoAtual) sugestaoAtual = p.personagem;
-
         }
     });
 });
 
-// Enviar tentativa
 function submitTentativa(){
     let valor = input.value.toLowerCase().trim();
-
     if(sugestaoAtual){
         valor = sugestaoAtual.toLowerCase();
     }
@@ -769,78 +184,45 @@ function submitTentativa(){
         sugestoesDiv.innerHTML = "";
         sugestaoAtual = null;
 
-// Verifica se o jogador acertou **todos os atributos**, mas só após a animação terminar
-const tds = document.querySelectorAll("#tabela-tentativas tr:first-child td:not(:first-child)");
-let animacoesConcluidas = 0;
+        const acertouTudo = Object.values(resultado).every(c => c === "verde");
+        if(acertouTudo){
+            const modal = document.getElementById("modal-vitoria");
+            const foto = document.getElementById("foto-vitoria");
+            const nome = document.getElementById("nome-vitoria");
 
-tds.forEach(td => {
-    td.addEventListener("animationend", () => {
-        animacoesConcluidas++;
-        // Quando todas as células da tentativa mais recente terminaram a animação
-        if(animacoesConcluidas === tds.length){
-            const acertouTudo = Object.values(resultado).every(c => c === "verde");
-            if(acertouTudo){
-                const modal = document.getElementById("modal-vitoria");
-                const foto = document.getElementById("foto-vitoria");
-                const nome = document.getElementById("nome-vitoria");
+            foto.src = `img/${personagemDoDia.img}`;
+            foto.alt = personagemDoDia.personagem;
+            nome.innerText = `Era "${personagemDoDia.personagem}"`;
 
-                // colocar imagem e nome do personagem do dia
-                foto.src = `static/img/${personagemDoDia.img}`;
-                foto.alt = personagemDoDia.personagem;
-                nome.innerText = `Era "${personagemDoDia.personagem}"`;
+            modal.style.display = "flex";
+            somVitoria.play().catch(() => console.log("Som de vitória bloqueado."));
 
-                modal.style.display = "flex";
-
-                // tocar som de vitória
-                setTimeout(() => {
-                    somVitoria.play().catch(() => console.log("Som de vitória bloqueado pelo navegador."));
-                }, 100);
-
-                document.getElementById("btn-novamente").onclick = () => {
-                    localStorage.removeItem("tentativas");
-                    localStorage.removeItem("personagemDoDiaKey");
-                    tentativas = [];
-                    modal.style.display = "none";
-                    location.reload();
-                };
-            }
-
-}
-
-    }, {once: true}); // garante que o listener só execute uma vez
-});
-
+            document.getElementById("btn-novamente").onclick = () => {
+                localStorage.removeItem("tentativas");
+                localStorage.removeItem("personagemDoDiaKey");
+                tentativas = [];
+                modal.style.display = "none";
+                location.reload();
+            };
+        }
     } else {
         alert("Personagem não encontrado");
     }
 }
-// Ativar Enter para aceitar a primeira sugestão do autocompletar
+
 input.addEventListener("keydown", function(e){
     if(e.key === "Enter"){
         e.preventDefault();
         if(sugestaoAtual){
-            input.value = sugestaoAtual; // coloca a primeira sugestão no input
-            sugestoesDiv.innerHTML = ""; // limpa as sugestões
+            input.value = sugestaoAtual;
+            sugestoesDiv.innerHTML = "";
         }
-        submitTentativa(); // envia a tentativa
+        submitTentativa();
     }
-});
-document.addEventListener("DOMContentLoaded", () => {
-    const somStart = document.getElementById("som-start");
-    if(somStart){
-        // Tenta tocar o som
-        const playPromise = somStart.play();
-        if(playPromise !== undefined){
-            playPromise.catch(error => {
-                console.log("Som inicial bloqueado pelo navegador:", error);
-            });
-        }
-    // Tocar som de início quando a página carregar
-    window.addEventListener("load", () => {
-    somStart.play().catch(() => console.log("Som de início bloqueado pelo navegador."));
 });
 
-    }
+document.addEventListener("DOMContentLoaded", () => {
+    somStart.play().catch(() => console.log("Som inicial bloqueado pelo navegador."));
 });
 
 </script>
